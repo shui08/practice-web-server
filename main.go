@@ -6,6 +6,13 @@ import (
 	"net/http"
 )
 
+// this function is a handler for the "/hello" endpoint of the server. it takes
+// in a response writer, which indicates where responses will be written, and
+// a pointer to a request. if the url path that the request was made on is not
+// "/hello", then the function displays a 404 not found error and terminates.
+// additionally, if r is not a "GET" request, then it once again displays an
+// error and terminates. if both of these conditions are passed, then the
+// function simply displays hello to the ResponseWriter w.
 func helloHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/hello" {
 		http.Error(w, "404 not found", http.StatusNotFound)
