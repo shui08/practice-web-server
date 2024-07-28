@@ -25,6 +25,26 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "howdy")
 }
 
+// this function is a handler for the "/form" endpoint of the server. when a
+// user submits their name and address into the "/form.html" endpoint, it then
+// transfers them to the "/form" endpoint and submits a POST request with their
+// name and address. we then parse the request, which fills out the "r.Form" and
+// "r.PostForm" fields. ParseForm also returns an error, so we check if the
+// error is non nil. if it is, then we print the error message and return.
+// if not, we retrieve the user input from "name" and "address" and display it.
+func formHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		fmt.Fprintf(w, "Parsing error: %v", err)
+		return
+	}
+	name := r.FormValue("name")
+	address := r.FormValue("address")
+	fmt.Fprintln(w, "POST request successful!")
+	fmt.Fprintf(w, "Name: %v\n", name)
+	fmt.Fprintf(w, "Address: %v", address)
+}
+
 func main() {
 	// http.Dir() takes in the name of a directory as a string and then returns
 	// a FileSystem object. http.FileServer then accepts this FileSystem object
